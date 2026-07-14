@@ -1,0 +1,58 @@
+ngrx
+
+ng add @ngrx/store               
+StoreModule.forRoot({}, {}),
+        
+ng add @ngrx/store-devtools --legacy-peer-deps
+StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })],
+
+ng g store auth/Auth --module auth.module.ts
+
+will generate reducer
+
+Add this is auth module ---> StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducers),
+
+
+
+createAction --> text and props<model>()
+
+createFeatureSelector<model>('name') --> model for feature selector and also 
+
+createSelector(createFeatureSelector Ref, model)
+ex 
+
+export const selectAuthState = createFeatureSelector<AuthState>('auth');
+
+export const isLoggedIn = createSelector(
+  selectAuthState,
+  (auth) => !!auth.user
+)
+
+
+  actions$ = inject(Actions);
+
+  login$ = createEffect(() =>  
+    this.actions$.pipe(
+      ofType(AuthActions.login), // ofType equivalent to map
+      tap(action => localStorage.setItem('user', JSON.stringify(action.user))) // side effect
+    ),
+    { dispatch: false } //this is required for infinite loop
+  )
+  
+  
+  // to replay action  
+  StoreRouterConnectingModule.forRoot({
+          stateKey: 'router',
+          routerState: RouterState.Minimal
+        })
+		
+		
+		
+ StoreModule.forRoot(reducers, {
+          metaReducers,
+          runtimeChecks: {
+          strictStateImmutability: true, /// check data is mutated if mutated, throws error
+          strictActionImmutability: true 
+          strictStateSerializability: tru
+          strictActionSerializability: true
+        }}),
